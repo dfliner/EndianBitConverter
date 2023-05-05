@@ -206,4 +206,17 @@ public abstract class EndianBitConverter
     /// <param name="startIndex">The starting position within the byte array to convert.</param>
     /// <returns>The Unicode string converted from the byte array.</returns>
     public abstract string ToString(byte[] bytes, int startIndex, int count);
+
+    protected static byte[] Reverse(byte[] bytes, int startIndex, int length)
+    {
+        if (startIndex + length > bytes.Length)
+        {
+            throw new ArgumentException("The array does not have enough bytes to reverse.");
+        }
+
+        byte[] result = new byte[length];
+        Array.Copy(bytes, startIndex, result, 0, length);
+        Array.Reverse(result);
+        return result;
+    }
 }
