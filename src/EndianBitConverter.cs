@@ -4,15 +4,15 @@
 /// This class augments <see cref="BitConverter"/> to support endianness in converting data values
 /// to byte arrays and vice versa, regardless the endianness of the system.
 /// <para>
-/// The <see cref="LittleEndian"/> instance always treats bytes in arrays in little-endian order; 
-/// while the <see cref="BigEndian"/> instance handles bytes in arrays in big-endian order.
+/// The <see cref="LittleEndian"/> returns an instance that handles bytes in arrays in little-endian order; 
+/// while the <see cref="BigEndian"/> returns an instance that handles bytes in arrays in big-endian order.
 /// </para> 
 /// </summary>
 /// <remarks>
 /// Note, <see cref="BitConverter"/> assumes that the byte arrays given to it are always in the system's 
 /// native byte order. 
 /// </remarks>
-public abstract class EndianBitConverter
+public abstract partial class EndianBitConverter
 {
     private static Lazy<BigEndianBitConverter> lazyBigEndian = 
         new Lazy<BigEndianBitConverter>(() => new BigEndianBitConverter());
