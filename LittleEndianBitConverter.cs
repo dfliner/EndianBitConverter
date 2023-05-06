@@ -136,13 +136,7 @@ internal class LittleEndianBitConverter : EndianBitConverter
 
     public override byte[] GetBytes(decimal value)
     {
-        int[] bits = decimal.GetBits(value);
-
-        byte[] bytes = new byte[16];
-        for (int i = 0; i < 16; i += 4)
-        {
-            Array.Copy(BitConverter.GetBytes(bits[i/4]), 0, bytes, i, 4);
-        }
+        byte[] bytes = base.GetBytes(value);
 
         if (BitConverter.IsLittleEndian)
         {
@@ -158,13 +152,13 @@ internal class LittleEndianBitConverter : EndianBitConverter
         return Encoding.Unicode.GetBytes(value);
     }
 
-    public override bool ToBoolean(byte[] bytes, int startIndex)
+    public override bool ToBoolean(byte[] bytes, int startIndex = 0)
     {
         // Boolean is represented using 1 byte.
         return BitConverter.ToBoolean(bytes, startIndex);
     }
 
-    public override char ToChar(byte[] bytes, int startIndex)
+    public override char ToChar(byte[] bytes, int startIndex = 0)
     {
         if (BitConverter.IsLittleEndian)
         {
@@ -175,30 +169,18 @@ internal class LittleEndianBitConverter : EndianBitConverter
         return BitConverter.ToChar(buf, 0);
     }
 
-    public override decimal ToDecimal(byte[] bytes, int startIndex)
+    public override decimal ToDecimal(byte[] bytes, int startIndex = 0)
     {
-        if (bytes.Length - startIndex < 16)
+        if (BitConverter.IsLittleEndian)
         {
-            throw new ArgumentException("A decimal requires 16 bytes.");
+            return base.ToDecimal(bytes, startIndex);
         }
 
-        byte[] buf = new byte[16];
-        Array.Copy(bytes, startIndex, buf, 0, 16);
-        
-        if (!BitConverter.IsLittleEndian)
-        {
-            Array.Reverse(buf);
-        }
-
-        int[] bits = new int[4];
-        for (int i = 0; i < 16; i += 4)
-        {
-            bits[i/4] = BitConverter.ToInt32(buf, i);
-        }
-        return new decimal(bits);
+        byte[] buf = Reverse(bytes, startIndex, 16);
+        return base.ToDecimal(buf, 0);
     }
 
-    public override double ToDouble(byte[] bytes, int startIndex)
+    public override double ToDouble(byte[] bytes, int startIndex = 0)
     {
         if (BitConverter.IsLittleEndian)
         {
@@ -209,7 +191,7 @@ internal class LittleEndianBitConverter : EndianBitConverter
         return BitConverter.ToDouble(buf, 0);
     }
 
-    public override short ToInt16(byte[] bytes, int startIndex)
+    public override short ToInt16(byte[] bytes, int startIndex = 0)
     {
         if (BitConverter.IsLittleEndian)
         {
@@ -220,7 +202,7 @@ internal class LittleEndianBitConverter : EndianBitConverter
         return BitConverter.ToInt16(buf, 0);
     }
 
-    public override int ToInt32(byte[] bytes, int startIndex)
+    public override int ToInt32(byte[] bytes, int startIndex = 0)
     {
         if (BitConverter.IsLittleEndian)
         {
@@ -231,7 +213,7 @@ internal class LittleEndianBitConverter : EndianBitConverter
         return BitConverter.ToInt32(buf, 0);
     }
 
-    public override long ToInt64(byte[] bytes, int startIndex)
+    public override long ToInt64(byte[] bytes, int startIndex = 0)
     {
         if (BitConverter.IsLittleEndian)
         {
@@ -242,7 +224,7 @@ internal class LittleEndianBitConverter : EndianBitConverter
         return BitConverter.ToInt64(buf, 0);
     }
 
-    public override float ToSingle(byte[] bytes, int startIndex)
+    public override float ToSingle(byte[] bytes, int startIndex = 0)
     {
         if (BitConverter.IsLittleEndian)
         {
@@ -258,7 +240,7 @@ internal class LittleEndianBitConverter : EndianBitConverter
         return Encoding.Unicode.GetString(bytes, startIndex, count);
     }
 
-    public override ushort ToUInt16(byte[] bytes, int startIndex)
+    public override ushort ToUInt16(byte[] bytes, int startIndex = 0)
     {
         if (BitConverter.IsLittleEndian)
         {
@@ -269,7 +251,7 @@ internal class LittleEndianBitConverter : EndianBitConverter
         return BitConverter.ToUInt16(buf, 0);
     }
 
-    public override uint ToUInt32(byte[] bytes, int startIndex)
+    public override uint ToUInt32(byte[] bytes, int startIndex = 0)
     {
         if (BitConverter.IsLittleEndian)
         {
@@ -280,7 +262,7 @@ internal class LittleEndianBitConverter : EndianBitConverter
         return BitConverter.ToUInt32(buf, 0);
     }
 
-    public override ulong ToUInt64(byte[] bytes, int startIndex)
+    public override ulong ToUInt64(byte[] bytes, int startIndex = 0)
     {
         if (BitConverter.IsLittleEndian)
         {
