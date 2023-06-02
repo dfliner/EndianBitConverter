@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace EndianBitConverter;
+namespace System;
 
 public partial class EndianBitConverter
 {

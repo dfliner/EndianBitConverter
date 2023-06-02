@@ -1,4 +1,4 @@
-﻿namespace EndianBitConverter;
+﻿namespace System;
 
 /// <summary>
 /// This class augments <see cref="BitConverter"/> to support endianness in converting data values
