@@ -120,11 +120,22 @@ public abstract partial class EndianBitConverter
     }
 
     /// <summary>
-    /// Returns a byte array of the specified Unicode string, using UTF-16 encoding.
+    /// Returns a byte array of the specified string, using UTF-16 encoding.
     /// </summary>
     /// <param name="value">The string to convert.</param>
     /// <returns>A byte array converted from the string.</returns>
-    public abstract byte[] GetUnicodeBytes(string value);
+    public abstract byte[] GetUTF16Bytes(string value);
+
+    /// <summary>
+    /// Returns a byte array of the specified string, using UTF8 enconding.
+    /// </summary>
+    /// <remarks>
+    /// Note: UFT8 enconding has no endianness, i.e., the byte order is always the same 
+    /// regardless the architecture's endianness.
+    /// </remarks>
+    /// <param name="value">The string to convert.</param>
+    /// <returns>A byte array converted from the string.</returns>
+    public abstract byte[] GetUTF8Bytes(string value);
 
     /// <summary>
     /// Converts to a boolean value from the byte array starting at specified position.

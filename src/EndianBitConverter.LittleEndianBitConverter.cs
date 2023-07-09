@@ -149,9 +149,14 @@ public partial class EndianBitConverter
             return bytes;
         }
 
-        public override byte[] GetUnicodeBytes(string value)
+        public override byte[] GetUTF16Bytes(string value)
         {
             return Encoding.Unicode.GetBytes(value);
+        }
+
+        public override byte[] GetUTF8Bytes(string value)
+        {
+            return Encoding.UTF8.GetBytes(value);
         }
 
         public override bool ToBoolean(byte[] bytes, int startIndex = 0)
